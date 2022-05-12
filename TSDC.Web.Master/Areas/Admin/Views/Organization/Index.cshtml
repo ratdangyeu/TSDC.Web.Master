@@ -1,3 +1,79 @@
 ﻿@model OrganizationSearchModel
 
+<div class="list-action">
+    <a href="javascript:void(0)" data-action="create" class="btn btn-success action">Thêm mới <i class="fas fa-plus-circle"></i></a>
+    <a href="javascript:void(0)" data-action="edit" class="btn btn-warning action">Chỉnh sửa <i class="fas fa-pen"></i></a>
+    <a href="javascript:void(0)" data-action="delete" class="btn btn-danger action">Xóa <i class="fas fa-trash-alt"></i></a>
+    <a href="javascript:void(0)" data-action="other" class="btn btn-info action">Thao tác khác <i class="fas fa-ellipsis-v"></i></a>
+</div>
 
+<div class="page-main">
+    <table id="example" class="row-border stripe hover" style="width: 100%">
+        <thead>
+            <tr>
+                <th>Tên</th>
+                <th>Tuổi</th>
+                <th>Địa chỉ</th>
+                <th>Thu nhập</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Tên</th>
+                <th>Tuổi</th>
+                <th>Địa chỉ</th>
+                <th>Thu nhập</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+@section HeadScripts{
+    <script>
+        var data = [
+            {
+                "name": "Trần Văn Tí",
+                "age": "18",
+                "address": "Hà Nội",
+                "salary": "18.000.000đ"
+            },
+            {
+                "name": "Trần Văn Tí",
+                "age": "18",
+                "address": "Hà Nội",
+                "salary": "18.000.000đ"
+            },
+            {
+                "name": "Trần Văn Tí",
+                "age": "18",
+                "address": "Hà Nội",
+                "salary": "18.000.000đ"
+            },
+            {
+                "name": "Trần Văn Tí",
+                "age": "18",
+                "address": "Hà Nội",
+                "salary": "18.000.000đ"
+            },
+        ];
+    </script>    
+}
+
+@section Scripts{
+    <script>
+        $(document).ready(function(){
+            $('#example').DataTable({
+                data: data,
+                columns: [
+                    {data: 'name'},
+                    {data: 'age'},
+                    {data: 'address'},
+                    {data: 'salary'},
+                ],
+                select: {
+                    style: 'multi'
+                }
+            });
+        });        
+    </script>    
+}
