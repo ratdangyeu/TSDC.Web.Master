@@ -1,0 +1,134 @@
+﻿@model AuthenticateRequest
+
+<div class="login-content">
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="javascript:void(0)"><b>Đăng </b>nhập</a>
+        </div>
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Đăng nhập để sử dụng</p>
+
+                <form id="login-form">
+                    @Html.HiddenFor(m => m.ReturnUrl)
+                    <div class="input-group mb-3">
+                        <input asp-for="UserName" class="form-control" placeholder="Tên đăng nhập">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input asp-for="Password" class="form-control" placeholder="Mật khẩu">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="icheck-primary">
+                                <input asp-for="RememberMe" id="remember">
+                                <label for="remember">
+                                    Ghi nhớ đăng nhập
+                                </label>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <button type="button" id="btnLogin" class="btn btn-primary btn-block"><span style="font-size: 14px">Đăng nhập</span></button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+
+                @*<div class="social-auth-links text-center mb-3">
+                    <p>- OR -</p>
+                    <a href="#" class="btn btn-block btn-primary">
+                        <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+                    </a>
+                    <a href="#" class="btn btn-block btn-danger">
+                        <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+                    </a>
+                </div>*@
+                <!-- /.social-auth-links -->
+
+                @*<p class="mb-1">
+                    <a href="forgot-password.html">I forgot my password</a>
+                </p>*@
+                <p class="mb-0">
+                    <a href="javascript:void(0)" class="text-center">Chưa có tài khoản?</a>
+                </p>
+            </div>
+        <!-- /.login-card-body -->
+        </div>
+    </div>
+</div>
+<!-- /.login-box -->
+
+@section HeadScripts{
+    <script>
+        var master = {
+            urlLogin: '@Url.Action("Login")',
+            form: {
+                el: '#login-form',
+                $el: {},
+                init: function(){ }
+            },
+            btnLogin: {
+                el: '#btnLogin',
+                $el: {},
+                init: function(){ }
+            },
+            init: function(){ }
+        }
+
+        var form = master.form;
+        var btnLogin = master.btnLogin;        
+    </script>
+}
+
+@section Scripts{
+    <script>
+        master.init = function(){
+            form.init();
+            btnLogin.init();
+        }
+
+        form.init = function(){
+            form.$el = $(form.el);
+        }
+
+        btnLogin.init = function(){
+            btnLogin.$el = $(btnLogin.el);
+            btnLogin.$el.click(function(e){
+                e.preventDefault();
+
+                var request = form.$el.serialize();
+                $.ajax({
+                    url: master.urlLogin,
+                    data: request,
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function(res){
+                        if (res.status){
+                            console.log('OK');
+                        }
+                    },
+                    error: function(err){
+
+                    }
+                });
+            });
+        }
+
+        $(function(){            
+            master.init();
+        });
+    </script>
+}

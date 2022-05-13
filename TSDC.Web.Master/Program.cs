@@ -1,8 +1,11 @@
 using AutoMapper;
+using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using SmartBreadcrumbs.Extensions;
 using System.Reflection;
 using TSDC.SharedMvc.Master.Infrastructure;
+using TSDC.SharedMvc.Master.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +20,14 @@ var mapperConfig = new MapperConfiguration(config =>
 IMapper mapper = new Mapper(mapperConfig);
 builder.Services.AddSingleton(mapper);
 
+builder.Services.AddTransient<IValidator<AuthenticateRequest>, AuthenticateRequestValidator>();
+
 builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly());
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.LoginPath = "/Admin/Account/Login";   
+});
 
 var app = builder.Build();
 
@@ -34,6 +44,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseMvc(routes =>

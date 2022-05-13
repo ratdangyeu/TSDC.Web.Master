@@ -33,3 +33,9 @@ body {
     width: 100%;
     height: auto;
 }
+
+.login-content {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
