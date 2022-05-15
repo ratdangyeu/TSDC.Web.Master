@@ -62,7 +62,7 @@
                     <a href="forgot-password.html">I forgot my password</a>
                 </p>*@
                 <p class="mb-0">
-                    <a href="javascript:void(0)" class="text-center">Chưa có tài khoản?</a>
+                    <a href="javascript:void(0)" data-action="register" class="text-center">Chưa có tài khoản?</a>
                 </p>
             </div>
         <!-- /.login-card-body -->
@@ -75,6 +75,7 @@
     <script>
         var master = {
             urlLogin: '@Url.Action("Login")',
+            urlRegister: '@Url.Action("Register")',
             form: {
                 el: '#login-form',
                 $el: {},
@@ -85,11 +86,17 @@
                 $el: {},
                 init: function(){ }
             },
+            btnRegister: {
+                el: 'a[data-action="register"]',
+                $el: {},
+                init: function(){ }
+            },
             init: function(){ }
         }
 
         var form = master.form;
-        var btnLogin = master.btnLogin;        
+        var btnLogin = master.btnLogin;       
+        var btnRegister = master.btnRegister;
     </script>
 }
 
@@ -98,6 +105,7 @@
         master.init = function(){
             form.init();
             btnLogin.init();
+            btnRegister.init();
         }
 
         form.init = function(){
@@ -124,6 +132,15 @@
 
                     }
                 });
+            });
+        }
+
+        btnRegister.init = function(){
+            btnRegister.$el = $(btnRegister.el);
+            btnRegister.$el.click(function(e){
+                e.preventDefault();
+
+                location.href = master.urlRegister;
             });
         }
 

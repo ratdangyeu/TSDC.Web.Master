@@ -4,6 +4,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using SmartBreadcrumbs.Extensions;
 using System.Reflection;
+using TSDC.ApiHelper.Models;
 using TSDC.SharedMvc.Master.Infrastructure;
 using TSDC.SharedMvc.Master.Models;
 
@@ -19,6 +20,8 @@ var mapperConfig = new MapperConfiguration(config =>
 
 IMapper mapper = new Mapper(mapperConfig);
 builder.Services.AddSingleton(mapper);
+
+builder.Services.Configure<ApiModel>(builder.Configuration.GetSection("Apis"));
 
 builder.Services.AddTransient<IValidator<AuthenticateRequest>, AuthenticateRequestValidator>();
 
