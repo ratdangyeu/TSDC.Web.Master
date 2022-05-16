@@ -36,7 +36,7 @@
               </div>
             </div>
             <div class="input-group mb-3">
-              <input type="password" class="form-control" placeholder="Nhập lại mật khẩu">
+              <input type="password" id="retype-password" class="form-control" placeholder="Nhập lại mật khẩu">
               <div class="input-group-append">
                 <div class="input-group-text">
                   <span class="fas fa-lock"></span>
@@ -54,7 +54,7 @@
               </div>
               <!-- /.col -->
               <div class="col-4">
-                <button type="button" class="btn btn-primary btn-block"><span style="font-size: 14px">Đăng ký</span></button>
+                <button type="button" id="btnRegister" class="btn btn-primary btn-block"><span style="font-size: 14px">Đăng ký</span></button>
               </div>
               <!-- /.col -->
             </div>
@@ -79,3 +79,73 @@
     </div>
     <!-- /.register-box -->
 </div>
+
+@section HeadScripts{
+    <script>
+        var master = {
+            urlRegister: '@Url.Action("Register")',
+            urlLogin: '@Url.Action("Login")',
+            form: {
+                el: '#register-form',
+                $el: {},
+                init: function(){ }
+            },
+            btnRegister: {
+                el: '#btnRegister',
+                $el: {},
+                init: function(){ }
+            },
+            init: function() { }
+        };
+
+        var form = master.form;
+        var btnRegister = master.btnRegister;
+    </script>
+}
+
+@section Scripts{
+    <script>
+        master.init = function () {
+            form.init();
+            btnRegister.init();
+        }
+
+        form.init = function () {
+            form.$el = $(form.el);
+        }
+
+        btnRegister.init = function (){
+            btnRegister.$el = $(btnRegister.el);
+
+            btnRegister.$el.click(function (e){
+                e.preventDefault();
+
+                var agreeTerms = $('#agreeTerms').is(':checked');
+                var retypePwd = $('#retype-password').val();
+                var pwd = $('#Password').val();
+                var model = form.$el.serialize();
+
+                if (agreeTerms && pwd === retypePwd){
+                    $.ajax({
+                        url: master.urlRegister,
+                        data: model,
+                        dataType: 'json',
+                        type: 'POST',
+                        success: function(res){
+                            if (res.status){
+                                location.href = master.urlLogin;
+                            }
+                        },
+                        error: function (err){
+
+                        }
+                    });
+                }
+            });
+        }
+
+        $(function(){
+            master.init();
+        });
+    </script>
+}

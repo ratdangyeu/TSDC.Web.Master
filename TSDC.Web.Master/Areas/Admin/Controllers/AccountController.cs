@@ -60,8 +60,7 @@ namespace TSDC.Web.Master.Areas.Admin.Controllers
             {
                 var claims = new List<Claim>()
                 {
-                    new Claim(ClaimTypes.Name, model.UserName),
-                    new Claim(ClaimTypes.Authentication, res.Token)
+                    new Claim(ClaimTypes.Name, model.UserName)
                 };
 
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -71,7 +70,11 @@ namespace TSDC.Web.Master.Areas.Admin.Controllers
                 {
                     IsPersistent = request.RememberMe
                 });
-            }
+
+                Response.Cookies.Append("X-Access-Token", res.Token, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
+                Response.Cookies.Append("X-Username", model.UserName, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
+                Response.Cookies.Append("X-Refresh-Token", Guid.NewGuid().ToString(), new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
+            }            
 
             return Ok(new BaseResult<string>
             {
@@ -99,6 +102,7 @@ namespace TSDC.Web.Master.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(UserModel model)
         {
+            ModelState.Remove("Code");
             if (!ModelState.IsValid)
             {
                 return Ok(new BaseResult<string>
@@ -108,6 +112,7 @@ namespace TSDC.Web.Master.Areas.Admin.Controllers
                 });
             }
 
+            model.Code = ((int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds).ToString();
             var res = await ApiHelper<UserModel>.ExecuteAsync("user/create", null, model, Method.POST, _apiModel.Master);
 
             if (res?.Status == false)

@@ -125,7 +125,7 @@
                     dataType: 'json',
                     success: function(res){
                         if (res.status){
-                            console.log('OK');
+                            location.href = res.data;
                         }
                     },
                     error: function(err){

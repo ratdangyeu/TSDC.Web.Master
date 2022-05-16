@@ -71,6 +71,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <li class="nav-item">
+                <a href="@Url.Action("LogOut", "Account")"><i class="fas fa-sign-out-alt"></i></a>
+            </li>
+        }        
     </ul>
   </nav>
   <!-- /.navbar -->

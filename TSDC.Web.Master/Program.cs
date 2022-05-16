@@ -24,6 +24,7 @@ builder.Services.AddSingleton(mapper);
 builder.Services.Configure<ApiModel>(builder.Configuration.GetSection("Apis"));
 
 builder.Services.AddTransient<IValidator<AuthenticateRequest>, AuthenticateRequestValidator>();
+builder.Services.AddTransient<IValidator<UserModel>, UserValidator>();
 
 builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly());
 
