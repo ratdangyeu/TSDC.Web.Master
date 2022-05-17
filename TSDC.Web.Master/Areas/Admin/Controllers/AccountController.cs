@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,13 +18,19 @@ namespace TSDC.Web.Master.Areas.Admin.Controllers
     {
         #region Fields
         private readonly ApiModel _apiModel;
+        private readonly IValidator<UserModel> _validatorUser;
+        private readonly IValidator<AuthenticateRequest> _validatorAuthenticate;
         #endregion
 
         #region Ctor
         public AccountController(
-            IOptions<ApiModel> apiModel)
+            IOptions<ApiModel> apiModel,
+            IValidator<UserModel> validatorUser,
+            IValidator<AuthenticateRequest> validatorAuthenticate)
         {
             _apiModel = apiModel.Value;
+            _validatorUser = validatorUser;
+            _validatorAuthenticate = validatorAuthenticate;
         }
         #endregion
 
@@ -43,7 +50,8 @@ namespace TSDC.Web.Master.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(AuthenticateRequest request)
         {
-            if (!ModelState.IsValid)
+            var validationResult = await _validatorAuthenticate.ValidateAsync(request);
+            if (!validationResult.IsValid)
             {
                 return Ok(new BaseResult<string>
                 {
@@ -86,11 +94,7 @@ namespace TSDC.Web.Master.Areas.Admin.Controllers
         public async Task<IActionResult> LogOut()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return Ok(new BaseResult<string>
-            {
-                Status = true,
-                Data = "/"
-            });
+            return LocalRedirect("/");
         }
 
         public IActionResult Register()
@@ -102,8 +106,8 @@ namespace TSDC.Web.Master.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(UserModel model)
         {
-            ModelState.Remove("Code");
-            if (!ModelState.IsValid)
+            var validationResult = await _validatorUser.ValidateAsync(model);
+            if (!validationResult.IsValid)
             {
                 return Ok(new BaseResult<string>
                 {

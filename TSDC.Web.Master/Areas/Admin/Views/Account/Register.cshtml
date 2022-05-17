@@ -84,7 +84,7 @@
     <script>
         var master = {
             urlRegister: '@Url.Action("Register")',
-            urlLogin: '@Url.Action("Login")',
+            urlLogin: '@Url.Action("Login")' + '?ReturnUrl=%2F',
             form: {
                 el: '#register-form',
                 $el: {},

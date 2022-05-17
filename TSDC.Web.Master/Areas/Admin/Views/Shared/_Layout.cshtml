@@ -18,10 +18,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="~/adminlte/css/adminlte.min.css">
   <link rel="stylesheet" href="~/adminlte/plugins/datatables/jquery.dataTables.min.css">
   <link rel="stylesheet" href="~/adminlte/plugins/datatables-select/css/select.dataTables.min.css">
+  <link rel="stylesheet" href="~/adminlte/plugins/pace-progress/themes/blue/pace-theme-minimal.css">
   <link rel="stylesheet" href="~/css/site.css">
 </head>
 @RenderSection("HeadScripts", required:false)
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini pace-progress">
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -71,12 +72,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
+      <li class="nav-item d-none d-sm-inline-block">
         @if (User.Identity.IsAuthenticated)
         {
-            <li class="nav-item">
-                <a href="@Url.Action("LogOut", "Account")"><i class="fas fa-sign-out-alt"></i></a>
-            </li>
-        }        
+            <a href="@Url.Action("LogOut", "Account")" class="nav-link">
+                <i class="fas fa-sign-out-alt" style="font-size: 20px; color: #fff"></i>
+            </a>
+        } 
+      </li>               
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -109,7 +112,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             }
             else
             {
-                <a href="javascript:void(0)" class="d-block">Administrator</a>
+                <a href="javascript:void(0)" class="d-block">Khách truy cập</a>
             }                        
         </div>
       </div>      
@@ -218,6 +221,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="~/adminlte/js/adminlte.min.js"></script>
 <script src="~/adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="~/adminlte/plugins/datatables-select/js/dataTables.select.min.js"></script>
+<script src="~/adminlte/plugins/pace-progress/pace.min.js"></script>
 @RenderSection("Scripts", required:false)
 </body>
 </html>

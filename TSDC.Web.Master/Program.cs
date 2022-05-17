@@ -30,7 +30,7 @@ builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly());
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
-    options.LoginPath = "/Admin/Account/Login";   
+    options.LoginPath = "/Admin/Account/Login";
 });
 
 var app = builder.Build();
