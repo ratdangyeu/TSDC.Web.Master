@@ -94,7 +94,7 @@ namespace TSDC.Web.Master.Areas.Admin.Controllers
         public async Task<IActionResult> LogOut()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return LocalRedirect("/");
+            return Redirect("/");
         }
 
         public IActionResult Register()

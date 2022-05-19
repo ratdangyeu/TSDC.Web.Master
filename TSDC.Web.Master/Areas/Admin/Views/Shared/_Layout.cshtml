@@ -75,7 +75,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <li class="nav-item d-none d-sm-inline-block">
         @if (User.Identity.IsAuthenticated)
         {
-            <a href="@Url.Action("LogOut", "Account")" class="nav-link">
+            <a href="javascript:void(0)" data-actionUrl="@Url.Action("LogOut", "Account")" onclick="logOut(this)" class="nav-link">
                 <i class="fas fa-sign-out-alt" style="font-size: 20px; color: #fff"></i>
             </a>
         } 
@@ -222,6 +222,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="~/adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="~/adminlte/plugins/datatables-select/js/dataTables.select.min.js"></script>
 <script src="~/adminlte/plugins/pace-progress/pace.min.js"></script>
+<script src="~/adminlte/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="~/js/site.js"></script>
 @RenderSection("Scripts", required:false)
 </body>
 </html>
